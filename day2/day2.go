@@ -4,7 +4,6 @@ import (
     "fmt"
     "log"
     "regexp"
-    "strings"
     "strconv"
 )
 
@@ -36,15 +35,14 @@ func remove(list []string, index int) []string {
 func parse_policy(policy_and_password string) (int, int, string, string) {
     var regex = regexp.MustCompile(`(\d+)-(\d+) ([a-zA-Z]): ([a-zA-Z]+)`)
     res := regex.FindStringSubmatch(policy_and_password)
-    return toInt(res[1]), toInt(res[2]), res[3], res[4]
+    return toInt(res[1]) - 1, toInt(res[2]) - 1, res[3], res[4]
 }
 
 func Run(entries []string) {
     valid_passwords := 0
     for _, policy_and_password := range entries {
-        min, max, char, password := parse_policy(policy_and_password)
-        count := strings.Count(password, char)
-        if (count >= min && count <= max) {
+        first, second, char, password := parse_policy(policy_and_password)
+        if (((string(password[first]) == char && string(password[second]) != char) || (string(password[first]) != char && string(password[second]) == char)) && (string(password[first]) != string(password[second]))) {
             valid_passwords++
         }
     }
