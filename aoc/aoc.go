@@ -1,7 +1,7 @@
 package main
 
 import (
-    "day2"
+    "day3"
     "io/ioutil"
     "log"
     "strings"
@@ -16,5 +16,5 @@ func readEntries() []string {
 }
 
 func main() {
-    day2.Run(readEntries())
+    day3.Run(readEntries())
 }
